@@ -1,3 +1,5 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
 import time
 from absl import app, flags, logging
 from absl.flags import FLAGS
@@ -10,12 +12,16 @@ import numpy as np
 import tensorflow as tf
 
 flags.DEFINE_string('framework', 'tf', '(tf, tflite')
-flags.DEFINE_string('weights', './data/yolov4.weights',
+flags.DEFINE_string('weights', './data/yolov3-tiny.weights',
                     'path to weights file')
 flags.DEFINE_integer('size', 608, 'resize images to')
-flags.DEFINE_boolean('tiny', False, 'yolo or yolo-tiny')
-flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
-flags.DEFINE_string('video', './data/road.avi', 'path to input video')
+flags.DEFINE_boolean('tiny', True, 'yolo or yolo-tiny')
+flags.DEFINE_string('model', 'yolov3-tiny', 'yolov3 or yolov4')
+#flags.DEFINE_string('video', './data/road.avi', 'path to input video')
+flags.DEFINE_string('video', './data/apple.mp4', 'path to input video or set to 0 for webcam')
+flags.DEFINE_string('output', None, 'path to output video')
+flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
+
 
 def main(_argv):
     if FLAGS.tiny:

@@ -1,3 +1,6 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
+#os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import time
 from absl import app, flags, logging
 from absl.flags import FLAGS
@@ -8,15 +11,18 @@ from core.config import cfg
 import cv2
 import numpy as np
 import tensorflow as tf
-
+from time import sleep
+os.system("fswebcam -r 640x480 --no-banner image.png")
+sleep(2)
+cv2.imread('image.png')
 flags.DEFINE_string('framework', 'tf', '(tf, tflite')
-flags.DEFINE_string('weights', './data/yolov4.weights',
+flags.DEFINE_string('weights', './data/yolov3-tiny.weights',
                     'path to weights file')
 flags.DEFINE_integer('size', 608, 'resize images to')
-flags.DEFINE_boolean('tiny', False, 'yolo or yolo-tiny')
-flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
-flags.DEFINE_string('image', './data/kite.jpg', 'path to input image')
-flags.DEFINE_string('output', 'result.png', 'path to output image')
+flags.DEFINE_boolean('tiny', True, 'yolo or yolo-tiny')
+flags.DEFINE_string('model', 'yolov3-tiny', 'yolov3 or yolov4')
+flags.DEFINE_string('image','image.png', 'path to input image')
+flags.DEFINE_string('output', 'çıktı4.png', 'path to output image')
 
 def main(_argv):
     if FLAGS.tiny:
@@ -101,7 +107,7 @@ def main(_argv):
 
     # ## pos processing the image
     #
-    # img = cv2.imread('result.png')
+     #img = cv2.imread('result.png')
     # # Convert BGR to HSV
     # hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # mask1 = cv2.inRange(hsv, (0, 20, 20), (8, 255, 255))
